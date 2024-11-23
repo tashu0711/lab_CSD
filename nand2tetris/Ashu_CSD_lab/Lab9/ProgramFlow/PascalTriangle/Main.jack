@@ -1,0 +1,13 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/09/PascalTriangle/Main.jack
+
+class Main {
+
+    /** Main entry point for Pascal Triangle drawing. */
+    function void main() {
+        do PascalTriangle.main(); // Call the main function of PascalTriangle class
+        return;
+    }
+}

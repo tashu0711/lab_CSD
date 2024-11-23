@@ -1,0 +1,90 @@
+class PascalTriangle {
+    field int screenWidth;
+    field int screenHeight;
+    field int squareSize;
+    field int triangleRows;
+
+    constructor PascalTriangle new() {
+        let screenWidth = 512;
+        let screenHeight = 256;
+        let squareSize = 16;
+        let triangleRows = 16;
+        return this;
+    }
+
+    method void drawSquare(int x, int y, boolean isFilled) {
+        var int i, j;
+        
+        do Screen.setColor(true);  // Black border
+        do Screen.drawRectangle(x, y, x + squareSize, y + squareSize);
+        
+        if (isFilled) {
+            let i = 1;
+            while (i < squareSize) {
+                let j = 1;
+                while (j < squareSize) {
+                    do Screen.drawPixel(x + i, y + j);
+                    let j = j + 1;
+                }
+                let i = i + 1;
+            }
+        }
+        
+        return;
+    }
+
+    method int calculatePascalValue(int row, int col) {
+        var int value, k;
+        
+        let value = 1;
+        if ((col > 0) & (col < row)) {
+            let k = 1;
+            while (k < col) {
+                let value = (value * (row - k + 1)) / k;
+                let k = k + 1;
+            }
+        }
+        
+        return value;
+    }
+
+    method void drawPascalTriangle() {
+        var int row, col, x, y, value;
+        
+        let y = 10;  // Starting vertical position
+        
+        let row = 0;
+        while (row < triangleRows) {
+            let x = (screenWidth / 2) - ((row + 1) * squareSize / 2);
+            
+            let col = 0;
+            while (col < row) {
+                let value = calculatePascalValue(row, col);
+                
+                if ((value & 1) = 1) {
+                    do drawSquare(x, y, true);
+                }
+                else {
+                    do drawSquare(x, y, false);
+                }
+                
+                let x = x + squareSize;
+                let col = col + 1;
+            }
+            
+            let y = y + squareSize;
+            let row = row + 1;
+        }
+        
+        return;
+    }
+
+    function void main() {
+        var PascalTriangle triangle;
+        let triangle = PascalTriangle.new();
+        do Screen.clearScreen();
+        do triangle.drawPascalTriangle();
+        do Sys.wait(5000);
+        return;
+    }
+}

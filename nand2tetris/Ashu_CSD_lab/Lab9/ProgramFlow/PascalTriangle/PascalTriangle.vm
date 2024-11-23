@@ -1,0 +1,213 @@
+function PascalTriangle.new 0
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+push constant 512
+pop this 0
+push constant 256
+pop this 1
+push constant 16
+pop this 2
+push constant 16
+pop this 3
+push pointer 0
+return
+function PascalTriangle.drawSquare 2
+push argument 0
+pop pointer 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push argument 1
+push argument 2
+push argument 1
+push this 2
+add
+push argument 2
+push this 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 3
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 1
+pop local 0
+label WHILE_EXP0
+push local 0
+push this 2
+lt
+not
+if-goto WHILE_END0
+push constant 1
+pop local 1
+label WHILE_EXP1
+push local 1
+push this 2
+lt
+not
+if-goto WHILE_END1
+push argument 1
+push local 0
+add
+push argument 2
+push local 1
+add
+call Screen.drawPixel 2
+pop temp 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP1
+label WHILE_END1
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+label IF_FALSE0
+push constant 0
+return
+function PascalTriangle.calculatePascalValue 2
+push argument 0
+pop pointer 0
+push constant 1
+pop local 0
+push argument 2
+push constant 0
+gt
+push argument 2
+push argument 1
+lt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 1
+pop local 1
+label WHILE_EXP0
+push local 1
+push argument 2
+lt
+not
+if-goto WHILE_END0
+push local 0
+push argument 1
+push local 1
+sub
+push constant 1
+add
+call Math.multiply 2
+push local 1
+call Math.divide 2
+pop local 0
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP0
+label WHILE_END0
+label IF_FALSE0
+push local 0
+return
+function PascalTriangle.drawPascalTriangle 5
+push argument 0
+pop pointer 0
+push constant 10
+pop local 3
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push this 3
+lt
+not
+if-goto WHILE_END0
+push this 0
+push constant 2
+call Math.divide 2
+push local 0
+push constant 1
+add
+push this 2
+call Math.multiply 2
+push constant 2
+call Math.divide 2
+sub
+pop local 2
+push constant 0
+pop local 1
+label WHILE_EXP1
+push local 1
+push local 0
+lt
+not
+if-goto WHILE_END1
+push pointer 0
+push local 0
+push local 1
+call PascalTriangle.calculatePascalValue 3
+pop local 4
+push local 4
+push constant 1
+and
+push constant 1
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+push local 2
+push local 3
+push constant 0
+not
+call PascalTriangle.drawSquare 4
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push pointer 0
+push local 2
+push local 3
+push constant 0
+call PascalTriangle.drawSquare 4
+pop temp 0
+label IF_END0
+push local 2
+push this 2
+add
+pop local 2
+push local 1
+push constant 1
+add
+pop local 1
+goto WHILE_EXP1
+label WHILE_END1
+push local 3
+push this 2
+add
+pop local 3
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function PascalTriangle.main 1
+call PascalTriangle.new 0
+pop local 0
+call Screen.clearScreen 0
+pop temp 0
+push local 0
+call PascalTriangle.drawPascalTriangle 1
+pop temp 0
+push constant 5000
+call Sys.wait 1
+pop temp 0
+push constant 0
+return
